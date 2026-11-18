@@ -1,3 +1,6 @@
+﻿import { LanguageProvider } from "@/context/LanguageContext";
+import { ThemeProvider } from "@/components/layout/ThemeProvider";
+import { AuthProvider } from "@/context/AuthContext";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -19,11 +22,14 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html
+    <html suppressHydrationWarning
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col"><ThemeProvider attribute="class" defaultTheme="system" enableSystem><LanguageProvider><AuthProvider>{children}</AuthProvider></LanguageProvider></ThemeProvider></body>
     </html>
   );
 }
+
+
+
