@@ -9,6 +9,7 @@
   "auth.demoButton": "Comptes démo",
   "auth.demoTitle": "Comptes de démonstration",
   "auth.demoHint": "Cliquez sur un compte pour remplir le formulaire (mot de passe : demo123).",
+  "login.home": "Retour à l’accueil",
   "auth.terms": "En vous connectant, vous acceptez nos conditions d'utilisation et reconnaissez avoir lu notre politique de données.",
   "auth.illustrationAlt": "Illustration d'énergie : éoliennes, panneaux solaires, pylônes et éclair",
 };
@@ -24,6 +25,7 @@ export const enLogin: Record<keyof typeof frLogin, string> = {
   "auth.demoButton": "Demo accounts",
   "auth.demoTitle": "Demo accounts",
   "auth.demoHint": "Click an account to fill in the form (password: demo123).",
+  "login.home": "Back to home",
   "auth.terms": "By signing in you agree to our terms of use and acknowledge that you have read our data policy.",
   "auth.illustrationAlt": "Energy illustration: wind turbines, solar panels, pylons and a lightning bolt",
 };

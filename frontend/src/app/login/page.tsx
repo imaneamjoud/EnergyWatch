@@ -1,8 +1,9 @@
 ﻿"use client";
 
 import { useEffect, useState, type ReactNode } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { AlertCircle, ChevronRight, Eye, EyeOff, Loader2, Zap } from "lucide-react";
+import { AlertCircle, ArrowLeft, ChevronRight, Eye, EyeOff, Loader2, Zap } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { useI18n } from "@/context/LanguageContext";
 import { Button } from "@/components/ui/button";
@@ -227,7 +228,16 @@ export default function LoginPage() {
             )}
           </div>
 
-          <p className="max-w-sm text-xs text-muted-foreground">{t("auth.terms")}</p>
+          <div className="max-w-sm space-y-3">
+            <p className="text-xs text-muted-foreground">{t("auth.terms")}</p>
+            <Link
+              href="/"
+              className="inline-flex items-center gap-2 text-sm font-medium text-emerald-700 transition-colors hover:text-emerald-800 dark:text-emerald-300 dark:hover:text-emerald-200"
+            >
+              <ArrowLeft className="size-4" />
+              {t("login.home")}
+            </Link>
+          </div>
         </div>
 
         {/* Illustration */}

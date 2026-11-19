@@ -1,5 +1,5 @@
-﻿import { redirect } from "next/navigation";
+import { HomeLanding } from "@/components/marketing/HomeLanding";
 
 export default function Home() {
-  redirect("/login");
+  return <HomeLanding />;
 }
