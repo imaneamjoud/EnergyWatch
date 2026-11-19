@@ -1,4 +1,4 @@
-﻿export type Role = "ADMIN" | "ANALYST" | "MANAGER";
+export type Role = "ADMIN" | "ANALYST" | "MANAGER";
 
 export interface User {
   id: string;
@@ -6,6 +6,7 @@ export interface User {
   email: string;
   role: Role;
   buildingIds: string[];
+  active?: boolean;
 }
 
 export interface Building {

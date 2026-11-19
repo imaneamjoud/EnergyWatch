@@ -1,4 +1,9 @@
-﻿import { frBuildings, enBuildings } from "./buildings";
+﻿import { frIntel, enIntel } from "./intel";
+import { frManage, enManage } from "./manage";
+import { frMeters, enMeters } from "./meters";
+import { frMonitoring, enMonitoring } from "./monitoring";
+import { frAnalytics, enAnalytics } from "./analytics";
+import { frBuildings, enBuildings } from "./buildings";
 import { frLogin, enLogin } from "./login";
 import { frDash, enDash } from "./dashboard";
 export type Lang = "fr" | "en";
@@ -7,6 +12,7 @@ export const fr = {
   ...frDash,
   ...frLogin,
   ...frBuildings,
+
   "home.nav.features": "Fonctionnalités",
   "home.nav.about": "À propos",
   "home.nav.signIn": "Se connecter",
@@ -55,6 +61,13 @@ export const fr = {
   "home.cta.description": "Connectez-vous pour découvrir le tableau de bord EnergyInsight.",
   "home.cta.button": "Ouvrir le tableau de bord",
   "home.footer": "Projet de démonstration EnergyInsight",
+
+  ...frMeters,
+  ...frMonitoring,
+  ...frAnalytics,
+  ...frIntel,
+  ...frManage,
+
   "common.loading": "Chargement…",
   "common.underConstruction": "Page en construction.",
 
@@ -199,6 +212,13 @@ export const en: Record<TranslationKey, string> = {
   "home.cta.description": "Sign in to discover the EnergyInsight dashboard.",
   "home.cta.button": "Open dashboard",
   "home.footer": "EnergyInsight demonstration project",
+
+  ...enMeters,
+  ...enMonitoring,
+  ...enAnalytics,
+  ...enIntel,
+  ...enManage,
+
   "common.loading": "Loading…",
   "common.underConstruction": "Page under construction.",
 
@@ -290,6 +310,4 @@ export const en: Record<TranslationKey, string> = {
 };
 
 export const dictionaries: Record<Lang, Record<TranslationKey, string>> = { fr, en };
-
-
 
