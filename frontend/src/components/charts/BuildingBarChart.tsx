@@ -4,7 +4,13 @@ import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxi
 
 const tick = { fill: "var(--muted-foreground)", fontSize: 12 };
 
-export function BuildingBarChart({ data }: { data: { name: string; kwh: number }[] }) {
+export function BuildingBarChart({
+  data,
+  unit = " kWh",
+}: {
+  data: { name: string; kwh: number }[];
+  unit?: string;
+}) {
   return (
     <div className="h-72 w-full">
       <ResponsiveContainer width="100%" height="100%">
@@ -17,7 +23,7 @@ export function BuildingBarChart({ data }: { data: { name: string; kwh: number }
           </defs>
           <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
           <XAxis dataKey="name" tick={tick} stroke="var(--border)" />
-          <YAxis unit=" kWh" width={80} tick={tick} stroke="var(--border)" />
+          <YAxis unit={unit} width={unit.length > 5 ? 96 : 80} tick={tick} stroke="var(--border)" />
           <Tooltip
             cursor={{ fill: "var(--accent)" }}
             contentStyle={{

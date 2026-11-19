@@ -1,6 +1,8 @@
 ﻿"use client";
 
-import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import { Bell, LogOut } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { useI18n } from "@/context/LanguageContext";
@@ -8,6 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/layout/ThemeToggle";
 import { LanguageToggle } from "@/components/layout/LanguageToggle";
+import { getUnreadCount } from "@/services/notifications";
 
 const roleKey = {
   ADMIN: "role.ADMIN",
@@ -19,6 +22,18 @@ export function Topbar() {
   const { user, logout } = useAuth();
   const { t } = useI18n();
   const router = useRouter();
+  const pathname = usePathname();
+  const [unread, setUnread] = useState(0);
+  const isAdmin = user?.role === "ADMIN";
+
+  useEffect(() => {
+    if (!isAdmin) return;
+    const refresh = () => getUnreadCount().then(setUnread);
+    refresh();
+    window.addEventListener("ei-notifications", refresh);
+    return () => window.removeEventListener("ei-notifications", refresh);
+  }, [isAdmin, pathname]);
+
   if (!user) return null;
 
   return (
@@ -30,9 +45,24 @@ export function Topbar() {
       <div className="flex items-center gap-2">
         <LanguageToggle />
         <ThemeToggle />
-        <Button variant="ghost" size="icon" aria-label={t("topbar.notifications")}>
-          <Bell className="h-4 w-4" />
-        </Button>
+        {isAdmin ? (
+          <Link
+            href="/notifications"
+            aria-label={t("topbar.notifications")}
+            className="relative inline-flex h-9 w-9 items-center justify-center rounded-md transition-colors hover:bg-accent"
+          >
+            <Bell className="h-4 w-4" />
+            {unread > 0 && (
+              <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-rose-500 px-1 text-[10px] font-bold text-white">
+                {unread}
+              </span>
+            )}
+          </Link>
+        ) : (
+          <Button variant="ghost" size="icon" aria-label={t("topbar.notifications")}>
+            <Bell className="h-4 w-4" />
+          </Button>
+        )}
         <Badge className="grad-emerald border-0 text-white">{t(roleKey[user.role])}</Badge>
         <Button
           variant="outline"

@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import { User } from "@/types";
@@ -32,7 +32,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = (email: string, password: string, remember = true) => {
     const found = demoUsers.find((u) => u.email === email);
-    if (!found || password !== DEMO_PASSWORD) return false;
+    if (!found || found.active === false || password !== DEMO_PASSWORD) return false;
     setUser(found);
     localStorage.removeItem(KEY);
     sessionStorage.removeItem(KEY);

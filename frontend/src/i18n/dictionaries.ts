@@ -1,4 +1,9 @@
-﻿import { frBuildings, enBuildings } from "./buildings";
+﻿import { frIntel, enIntel } from "./intel";
+import { frManage, enManage } from "./manage";
+import { frMeters, enMeters } from "./meters";
+import { frMonitoring, enMonitoring } from "./monitoring";
+import { frAnalytics, enAnalytics } from "./analytics";
+import { frBuildings, enBuildings } from "./buildings";
 import { frLogin, enLogin } from "./login";
 import { frDash, enDash } from "./dashboard";
 export type Lang = "fr" | "en";
@@ -7,6 +12,11 @@ export const fr = {
   ...frDash,
   ...frLogin,
   ...frBuildings,
+  ...frMeters,
+  ...frMonitoring,
+  ...frAnalytics,
+  ...frIntel,
+  ...frManage,
   "common.loading": "Chargement…",
   "common.underConstruction": "Page en construction.",
 
@@ -103,6 +113,11 @@ export const en: Record<TranslationKey, string> = {
   ...enDash,
   ...enLogin,
   ...enBuildings,
+  ...enMeters,
+  ...enMonitoring,
+  ...enAnalytics,
+  ...enIntel,
+  ...enManage,
   "common.loading": "Loading…",
   "common.underConstruction": "Page under construction.",
 
@@ -194,6 +209,8 @@ export const en: Record<TranslationKey, string> = {
 };
 
 export const dictionaries: Record<Lang, Record<TranslationKey, string>> = { fr, en };
+
+
 
 
 
