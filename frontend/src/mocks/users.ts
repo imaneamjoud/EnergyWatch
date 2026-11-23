@@ -10,3 +10,8 @@ export const demoUsers: User[] = [
   { id: "u5", name: "Manager Laboratoire", email: "manager3@energyinsight.com", role: "MANAGER", buildingIds: ["b2"] },
   { id: "u6", name: "Manager Stockage", email: "manager4@energyinsight.com", role: "MANAGER", buildingIds: ["b4"] },
 ];
+
+// Mots de passe modifiés pendant la session (démo). Par défaut : demo123.
+export const userPasswords = new Map<string, string>();
+export const checkPassword = (id: string, password: string) =>
+  (userPasswords.get(id) ?? DEMO_PASSWORD) === password;

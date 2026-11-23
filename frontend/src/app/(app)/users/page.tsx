@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { AlertCircle, Building2, Pencil, Plus, Power, Search, UserCheck, UserX, Users } from "lucide-react";
@@ -239,7 +239,7 @@ function UsersContent({ currentUser }: { currentUser: User }) {
             </Table>
           )}
 
-          <p className="text-xs text-muted-foreground">{t("usr.demoNote")}</p>
+          <p className="text-xs text-muted-foreground">{t("usr.demoNote2")}</p>
         </CardContent>
       </Card>
 

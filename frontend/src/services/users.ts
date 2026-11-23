@@ -1,5 +1,5 @@
 ﻿import { buildings } from "@/mocks/data";
-import { demoUsers } from "@/mocks/users";
+import { demoUsers, userPasswords } from "@/mocks/users";
 import type { TranslationKey } from "@/i18n/dictionaries";
 import type { Result } from "@/services/buildings";
 import type { Role, User } from "@/types";
@@ -10,7 +10,11 @@ export interface UserInput {
   role: Role;
   buildingIds: string[];
   active: boolean;
+  // Obligatoire à la création. À la modification : vide = conserver, rempli = réinitialiser.
+  password?: string;
 }
+
+const MIN_PASSWORD = 8;
 
 const normalize = (u: User): User => ({ ...u, active: u.active !== false });
 
@@ -23,6 +27,11 @@ function validate(input: UserInput, id: string | null, actorId: string): Transla
   const email = input.email.trim().toLowerCase();
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return "usr.err.email";
   if (demoUsers.some((u) => u.id !== id && u.email.toLowerCase() === email)) return "usr.err.emailExists";
+
+  const password = input.password ?? "";
+  if (id === null && !password) return "usr.err.passwordRequired";
+  if (password && password.length < MIN_PASSWORD) return "usr.err.passwordShort";
+
   if (input.role === "MANAGER" && input.buildingIds.length === 0) return "usr.err.buildings";
 
   if (id) {
@@ -53,6 +62,7 @@ export async function createUser(input: UserInput, actorId: string): Promise<Res
     buildingIds: cleanBuildings(input),
     active: input.active,
   });
+  userPasswords.set(id, input.password as string);
   return { ok: true, data: { id } };
 }
 
@@ -66,6 +76,7 @@ export async function updateUser(id: string, input: UserInput, actorId: string):
   u.role = input.role;
   u.buildingIds = cleanBuildings(input);
   u.active = input.active;
+  if (input.password) userPasswords.set(id, input.password);
   return { ok: true, data: { id } };
 }
 

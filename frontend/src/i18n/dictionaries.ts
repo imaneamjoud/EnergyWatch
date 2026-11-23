@@ -1,4 +1,6 @@
-﻿import { frIntel, enIntel } from "./intel";
+import { frUserPwd, enUserPwd } from "./userPwd";
+import { frShell, enShell } from "./shell";
+import { frIntel, enIntel } from "./intel";
 import { frManage, enManage } from "./manage";
 import { frMeters, enMeters } from "./meters";
 import { frMonitoring, enMonitoring } from "./monitoring";
@@ -67,6 +69,8 @@ export const fr = {
   ...frAnalytics,
   ...frIntel,
   ...frManage,
+  ...frShell,
+  ...frUserPwd,
 
   "common.loading": "Chargement…",
   "common.underConstruction": "Page en construction.",
@@ -218,6 +222,8 @@ export const en: Record<TranslationKey, string> = {
   ...enAnalytics,
   ...enIntel,
   ...enManage,
+  ...enShell,
+  ...enUserPwd,
 
   "common.loading": "Loading…",
   "common.underConstruction": "Page under construction.",

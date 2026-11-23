@@ -1,4 +1,4 @@
-﻿import {
+import {
   LayoutDashboard, Building2, Gauge, Activity, BarChart3,
   AlertTriangle, TrendingUp, Lightbulb, FileText, Users, Bell, Settings,
   type LucideIcon,
@@ -44,7 +44,7 @@ export const navigation: NavSection[] = [
     items: [
       { labelKey: "nav.reports", href: "/reports", icon: FileText, roles: ALL },
       { labelKey: "nav.users", href: "/users", icon: Users, roles: ["ADMIN"] },
-      { labelKey: "nav.notifications", href: "/notifications", icon: Bell, roles: ["ADMIN"] },
+      { labelKey: "nav.notifications", href: "/notifications", icon: Bell, roles: ALL },
       { labelKey: "nav.settings", href: "/settings", icon: Settings, roles: ["ADMIN"] },
     ],
   },

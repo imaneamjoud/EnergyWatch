@@ -1,8 +1,8 @@
-"use client";
+﻿"use client";
 
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import { User } from "@/types";
-import { demoUsers, DEMO_PASSWORD } from "@/mocks/users";
+import { checkPassword, demoUsers } from "@/mocks/users";
 
 const KEY = "ei_user";
 
@@ -11,6 +11,7 @@ interface AuthContextType {
   loading: boolean;
   login: (email: string, password: string, remember?: boolean) => boolean;
   logout: () => void;
+  updateSession: (user: User) => void;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -31,12 +32,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const login = (email: string, password: string, remember = true) => {
-    const found = demoUsers.find((u) => u.email === email);
-    if (!found || found.active === false || password !== DEMO_PASSWORD) return false;
-    setUser(found);
+    const found = demoUsers.find((u) => u.email.toLowerCase() === email.trim().toLowerCase());
+    if (!found || found.active === false || !checkPassword(found.id, password)) return false;
+    const session = { ...found };
+    setUser(session);
     localStorage.removeItem(KEY);
     sessionStorage.removeItem(KEY);
-    (remember ? localStorage : sessionStorage).setItem(KEY, JSON.stringify(found));
+    (remember ? localStorage : sessionStorage).setItem(KEY, JSON.stringify(session));
     return true;
   };
 
@@ -46,8 +48,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     sessionStorage.removeItem(KEY);
   };
 
+  // Met à jour l'utilisateur affiché (profil modifié) dans le stockage où la session a été enregistrée
+  const updateSession = (next: User) => {
+    setUser(next);
+    if (localStorage.getItem(KEY)) localStorage.setItem(KEY, JSON.stringify(next));
+    else if (sessionStorage.getItem(KEY)) sessionStorage.setItem(KEY, JSON.stringify(next));
+  };
+
   return (
-    <AuthContext.Provider value={{ user, loading, login, logout }}>
+    <AuthContext.Provider value={{ user, loading, login, logout, updateSession }}>
       {children}
     </AuthContext.Provider>
   );

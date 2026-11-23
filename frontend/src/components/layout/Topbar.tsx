@@ -1,16 +1,18 @@
 ﻿"use client";
 
-import { useEffect, useState } from "react";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import { Bell, LogOut } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { LogOut } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { useI18n } from "@/context/LanguageContext";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ThemeToggle } from "@/components/layout/ThemeToggle";
+import { GlobalSearch } from "@/components/layout/GlobalSearch";
 import { LanguageToggle } from "@/components/layout/LanguageToggle";
-import { getUnreadCount } from "@/services/notifications";
+import { MobileNav } from "@/components/layout/MobileNav";
+import { NotificationBell } from "@/components/layout/NotificationBell";
+import { ThemeToggle } from "@/components/layout/ThemeToggle";
+import { initials } from "@/lib/user";
 
 const roleKey = {
   ADMIN: "role.ADMIN",
@@ -22,58 +24,37 @@ export function Topbar() {
   const { user, logout } = useAuth();
   const { t } = useI18n();
   const router = useRouter();
-  const pathname = usePathname();
-  const [unread, setUnread] = useState(0);
-  const isAdmin = user?.role === "ADMIN";
-
-  useEffect(() => {
-    if (!isAdmin) return;
-    const refresh = () => getUnreadCount().then(setUnread);
-    refresh();
-    window.addEventListener("ei-notifications", refresh);
-    return () => window.removeEventListener("ei-notifications", refresh);
-  }, [isAdmin, pathname]);
-
   if (!user) return null;
 
   return (
-    <header className="flex h-16 items-center justify-between border-b bg-card/80 px-6 backdrop-blur">
-      <h1 className="text-sm text-muted-foreground">
-        {t("topbar.welcome")}, <span className="font-semibold text-foreground">{user.name}</span>
-      </h1>
+    <header className="relative z-30 flex h-16 items-center justify-between gap-3 border-b bg-card/80 px-4 backdrop-blur sm:px-6">
+      <div className="flex min-w-0 items-center gap-3">
+        <MobileNav />
+        <h1 className="hidden truncate text-sm text-muted-foreground md:block">
+          {t("topbar.welcome")}, <span className="font-semibold text-foreground">{user.name}</span>
+        </h1>
+      </div>
 
       <div className="flex items-center gap-2">
+        <GlobalSearch />
         <LanguageToggle />
         <ThemeToggle />
-        {isAdmin ? (
-          <Link
-            href="/notifications"
-            aria-label={t("topbar.notifications")}
-            className="relative inline-flex h-9 w-9 items-center justify-center rounded-md transition-colors hover:bg-accent"
-          >
-            <Bell className="h-4 w-4" />
-            {unread > 0 && (
-              <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-rose-500 px-1 text-[10px] font-bold text-white">
-                {unread}
-              </span>
-            )}
-          </Link>
-        ) : (
-          <Button variant="ghost" size="icon" aria-label={t("topbar.notifications")}>
-            <Bell className="h-4 w-4" />
-          </Button>
-        )}
-        <Badge className="grad-emerald border-0 text-white">{t(roleKey[user.role])}</Badge>
+        <NotificationBell />
+        <Link href="/profile" className="ei-avatar ei-avatar-sm" aria-label={t("page.profile.title")} title={user.name}>
+          {initials(user.name)}
+        </Link>
+        <Badge className="grad-emerald hidden border-0 text-white lg:inline-flex">{t(roleKey[user.role])}</Badge>
         <Button
           variant="outline"
           size="sm"
+          aria-label={t("topbar.logout")}
           onClick={() => {
             logout();
             router.push("/login");
           }}
         >
-          <LogOut className="mr-2 h-4 w-4" />
-          {t("topbar.logout")}
+          <LogOut className="h-4 w-4 sm:mr-2" />
+          <span className="hidden sm:inline">{t("topbar.logout")}</span>
         </Button>
       </div>
     </header>
